@@ -1,3 +1,6 @@
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurperClassic
+
 pipeline {
   agent {
     node {
@@ -188,7 +191,7 @@ script {
   """
   def testDefaultActionsFile = env.TEMPLATE_BASE_PATH + '/' + env.TEST_LISTENER_DEFAULT_ACTION_OUTPUT
 
-  def listerDefaultActionJson = new groovy.json.JsonSlurperClassic().parseText(listenerDefaultActionsTemplate)
+  def listerDefaultActionJson = new JsonSlurperClassic().parseText(listenerDefaultActionsTemplate)
 
   writeJSON(file: testDefaultActionsFile, json: listerDefaultActionJson, pretty: 2)
 
@@ -264,7 +267,7 @@ script {
 
   // Set live listener to new version
   def liveDefaultActionsFile = env.TEMPLATE_BASE_PATH + '/' + env.LIVE_LISTENER_DEFAULT_ACTION_OUTPUT
-  def liveListerDefaultActionJson = new groovy.json.JsonSlurperClassic().parseText(liveListenerDefaultActionsTemplate)
+  def liveListerDefaultActionJson = new JsonSlurperClassic().parseText(liveListenerDefaultActionsTemplate)
   writeJSON(file: liveDefaultActionsFile, json: liveListerDefaultActionJson, pretty: 2)
 
   def modifyLiveListenerResult = sh (
@@ -275,7 +278,7 @@ script {
 
   // Set test listener to previous version
   def testDefaultActionsFile = env.TEMPLATE_BASE_PATH + '/' + env.TEST_LISTENER_DEFAULT_ACTION_OUTPUT
-  def testListerDefaultActionJson = new groovy.json.JsonSlurperClassic().parseText(testListenerDefaultActionsTemplate)
+  def testListerDefaultActionJson = new JsonSlurperClassic().parseText(testListenerDefaultActionsTemplate)
   writeJSON(file: testDefaultActionsFile, json: testListerDefaultActionJson, pretty: 2)
 
   def modifyTestListenerResult = sh (
